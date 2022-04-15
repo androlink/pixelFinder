@@ -1,3 +1,6 @@
+package pixelFinder.graphic;
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,6 +19,8 @@ public class PixelAnalyserPanel extends JPanel {
     public BufferedImage resultante;
 
 
+
+
     public PixelAnalyserPanel(int width, int height, int ratio, float tolerenceR, float tolerenceG, float tolerenceB) throws AWTException {
         this.ratio=ratio;
         this.width=width/ratio;
@@ -32,13 +37,18 @@ public class PixelAnalyserPanel extends JPanel {
         }
     }
 
+    void startPixelAnalyser(){
+
+
+    }
+
     void update(){
 
         boolean move = false;
 
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -50,11 +60,13 @@ public class PixelAnalyserPanel extends JPanel {
             }
         }
 
-        move=false;
+
 
         //System.out.println("--------------------------------------------------");
         for(int j = 0;j<height;j++){
             for(int i = 0;i<width;i++){
+                move=false;
+
                 int SCR = (screenShot.getRGB(i*ratio,j*ratio)&16711680)>>16;
                 int SCG = (screenShot.getRGB(i*ratio,j*ratio)&65280)>>8;
                 int SCB = (screenShot.getRGB(i*ratio,j*ratio)&255);
@@ -64,22 +76,27 @@ public class PixelAnalyserPanel extends JPanel {
                 int LCB=(screenPixel[i][j].getRGB()&255);
 
 
-
+                //FIXME mettre les modifier
                 if(
                         Math.abs(SCR-LCR)>255*tolerenceR
                                 && Math.abs(SCG-LCG)>255*tolerenceG
                                 && Math.abs(SCB-LCB)>255*tolerenceB
                 ){
                     move=true;
-                    resultante.setRGB(i,j,new Color(0,0,0).getRGB());
+
                 }
 
                 //System.out.println(i+"/"+j+" screen : "+toRGB(screenShot.getRGB(i,j))+" / last " + toRGB(screenPixel[i][j].getRGB()));
 
                 screenPixel[i][j]=new Color(screenShot.getRGB(i*ratio,j*ratio));
+
+                if(move)resultante.setRGB(i,j,new Color(0,0,0).getRGB());//pixel en noir
             }
             //System.out.println();
         }
+
+
+
         paintComponent(this.getGraphics());
     }
 
@@ -98,7 +115,7 @@ public class PixelAnalyserPanel extends JPanel {
         j.setDefaultCloseOperation(3);
         j.setSize(200,200);
         try {
-            PixelAnalyserPanel p = new PixelAnalyserPanel(1920,1080,2,10,5,5);
+            PixelAnalyserPanel p = new PixelAnalyserPanel(500,500,1,10,5,5);
             j.add(p);
             while (true)p.update();
         } catch (AWTException e) {
