@@ -8,39 +8,42 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class InitScreen implements ActionListener {
 
-
-
     JFrame init = new JFrame("set configuration");
-    JLabel resolution = new JLabel("resolution:");
     JLabel LWidth = new JLabel("width:");
     JLabel LHeight = new JLabel("height");
-    JLabel LRatio = new JLabel("ratio:");
-    JTextArea TWidth =new JTextArea();
-    JTextArea THeight = new JTextArea();
-    JTextArea TRatio = new JTextArea();
-
+    JTextField TWidth =new JTextField();
+    JTextField THeight = new JTextField();
     JButton start = new JButton("confirm");
 
 
-
-
     public InitScreen(){
-        init.setSize(200,200);
+        init.setSize(200,100);
         init.setResizable(false);
         init.setDefaultCloseOperation(3);
         init.getContentPane().setLayout(new BorderLayout());
         init.setVisible(true);
         start.addActionListener(this);
 
-        JPanel center = new JPanel(new GridLayout(3,2));
-        init.add(resolution, BorderLayout.NORTH);
-        init.add(center,BorderLayout.CENTER);
+        JPanel WPanel = new JPanel(new BorderLayout());
+        WPanel.add(LWidth,BorderLayout.WEST);
+        WPanel.add(TWidth);
+
+        JPanel HPanel = new JPanel(new BorderLayout());
+        HPanel.add(LHeight,BorderLayout.WEST);
+        HPanel.add(THeight);
+
+        JPanel setting = new JPanel(new GridLayout());
+        setting.add(WPanel);
+        setting.add(HPanel);
+
+        init.add(setting,BorderLayout.NORTH);
         init.add(start,BorderLayout.SOUTH);
 
 
 
 
-
+        init.revalidate();
+        init.repaint();
     }
 
 
@@ -48,17 +51,21 @@ public class InitScreen implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         boolean send =true;
-
-
-
-
+        if(THeight.getText().isEmpty() || TWidth.getText().isEmpty())send=false;
+        int w=Integer.parseInt(TWidth.getText());
+        int h=Integer.parseInt(THeight.getText());
 
 
         if(send){
             init.setVisible(false);
-            //PixelFinder.update(100,100,1);
+            PixelAnalyser pixelAnalyser = new PixelAnalyser(w,h);
 
         }
 
     }
+
+    public static void main(String[] args) {
+        InitScreen init = new InitScreen();
+    }
+
 }
