@@ -1,4 +1,4 @@
-
+package pixelFinder.graphic;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,8 +1,9 @@
-import javax.swing.*;
+package pixelFinder.graphic;
+
+import pixelFinder.graphic.DisplayScreen;
+import pixelFinder.graphic.InitScreen;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 public class PixelFinder {
 
