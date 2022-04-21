@@ -26,7 +26,7 @@ public class PixelAnalyserPanel extends JPanel{
 
 
 
-        target.addTolerence(0.1f,0.1f,0.1f);
+        target.getTolerences().addTolerence(0.1f,0.1f,0.1f);
 
 
     }
