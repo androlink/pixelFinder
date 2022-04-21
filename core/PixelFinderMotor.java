@@ -2,6 +2,7 @@ package pixelFinder.core;
 
 import pixelFinder.graphic.PixelAnalyserPanel;
 import pixelFinder.modifier.Tolerence;
+import pixelFinder.modifier.TolerenceManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ public class PixelFinderMotor extends Thread {
 
     PixelAnalyserPanel target;
 
-    ArrayList<Tolerence> tolerences = new ArrayList<>();
+    TolerenceManager tolerences = new TolerenceManager();
 
     public int ratio=5;
     public int width=1920/ratio;
@@ -61,7 +62,7 @@ public class PixelFinderMotor extends Thread {
         boolean move = false;
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -91,7 +92,7 @@ public class PixelFinderMotor extends Thread {
 
                 //FIXME mettre les modifier
 
-                for(Tolerence t : tolerences)if(Math.abs(SCR-LCR)>255*t.getRed()
+                for(Tolerence t : tolerences.getTolerences())if(Math.abs(SCR-LCR)>255*t.getRed()
                         && Math.abs(SCG-LCG)>255*t.getGreen()
                         && Math.abs(SCB-LCB)>255*t.getBlue())move=true;
 
@@ -109,10 +110,8 @@ public class PixelFinderMotor extends Thread {
         target.refresh(resultante);
     }
 
-    public void addTolerence(float r,float g,float b){
-        boolean test = true;
-        for(Tolerence t:tolerences)if(t.getRed()==r && t.getGreen()==g && t.getBlue()==b)test=false;
-        if(test)tolerences.add(new Tolerence(r,g,b));
+    public TolerenceManager getTolerences() {
+        return tolerences;
     }
 
     public BufferedImage getResultante() {
