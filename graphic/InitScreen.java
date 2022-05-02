@@ -10,55 +10,83 @@ public class InitScreen implements ActionListener {
 
     JFrame init = new JFrame("set configuration");
     JLabel LWidth = new JLabel("width:");
-    JLabel LHeight = new JLabel("height");
-    JTextField TWidth =new JTextField();
-    JTextField THeight = new JTextField();
-    JButton start = new JButton("confirm");
+    JLabel LHeight = new JLabel("height:");
+    JLabel LRatio = new JLabel("ratio:");
+    JLabel LRate = new JLabel("frame rate:");
+    JTextField TWidth =new JTextField(6);
+    JTextField THeight = new JTextField(6);
+    JTextField TRatio =new JTextField(6);
+    JTextField TRate = new JTextField(6);
+    JButton start = new JButton("Confirm");
 
 
     public InitScreen(){
         init.setSize(200,100);
         init.setResizable(false);
         init.setDefaultCloseOperation(3);
-        init.getContentPane().setLayout(new BorderLayout());
-        init.setVisible(true);
         start.addActionListener(this);
 
-        JPanel WPanel = new JPanel(new BorderLayout());
-        WPanel.add(LWidth,BorderLayout.WEST);
-        WPanel.add(TWidth);
+        JPanel global = new JPanel(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor=GridBagConstraints.WEST;
+        constraints.insets = new Insets(5,5,5,5);
 
-        JPanel HPanel = new JPanel(new BorderLayout());
-        HPanel.add(LHeight,BorderLayout.WEST);
-        HPanel.add(THeight);
+        constraints.gridx=0;
+        constraints.gridy=0;
+        global.add(LWidth,constraints);
 
-        JPanel setting = new JPanel(new GridLayout());
-        setting.add(WPanel);
-        setting.add(HPanel);
+        constraints.gridx=1;
+        global.add(TWidth,constraints);
 
-        init.add(setting,BorderLayout.NORTH);
-        init.add(start,BorderLayout.SOUTH);
+        constraints.gridx=0;
+        constraints.gridy=1;
+        global.add(LHeight,constraints);
 
+        constraints.gridx=1;
+        global.add(THeight,constraints);
 
+        constraints.gridx=0;
+        constraints.gridy=2;
+        global.add(LRate,constraints);
 
+        constraints.gridx=1;
+        global.add(TRate,constraints);
 
-        init.revalidate();
-        init.repaint();
+        constraints.gridx=0;
+        constraints.gridy=3;
+        global.add(LRatio,constraints);
+
+        constraints.gridx=1;
+        global.add(TRatio,constraints);
+
+        constraints.gridx=0;
+        constraints.gridy=4;
+        constraints.gridwidth=2;
+        constraints.anchor=GridBagConstraints.CENTER;
+        global.add(start,constraints);
+
+        global.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Login Panel"));
+
+        init.add(global);
+        init.pack();
+        init.setLocationRelativeTo(null);
+        init.setVisible(true);
     }
 
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        boolean send =true;
-        if(THeight.getText().isEmpty() || TWidth.getText().isEmpty())send=false;
+        boolean send = true;
+
         int w=Integer.parseInt(TWidth.getText());
         int h=Integer.parseInt(THeight.getText());
-
+        int r=Integer.parseInt(TRatio.getText());
+        int s=Integer.parseInt(TRate.getText());
 
         if(send){
             init.setVisible(false);
-            PixelAnalyser pixelAnalyser = new PixelAnalyser(w,h);
+            new PixelAnalyser(w,h,r,s);
 
         }
 
