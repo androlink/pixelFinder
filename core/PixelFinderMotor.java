@@ -1,23 +1,23 @@
 package pixelFinder.core;
 
 import pixelFinder.graphic.PixelAnalyserPanel;
-import pixelFinder.modifier.Tolerence;
-import pixelFinder.modifier.TolerenceManager;
+import pixelFinder.modifier.Tolerance;
+import pixelFinder.modifier.ToleranceManager;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+//FIXME suprimer le thread
 
 public class PixelFinderMotor extends Thread {
 
     PixelAnalyserPanel target;
 
-    TolerenceManager tolerences = new TolerenceManager();
+    ToleranceManager tolerences = new ToleranceManager();
 
     public int ratio=5;
     public int width=1920/ratio;
     public int height=1080/ratio;
+    public int rate=1;
 
     public Robot robot;
 
@@ -35,10 +35,11 @@ public class PixelFinderMotor extends Thread {
     /**la resultante contient l'image du resultat de l'analyse*/
     public BufferedImage resultante;
 
-    public PixelFinderMotor(int width, int height, int ratio, PixelAnalyserPanel target){
+    public PixelFinderMotor(int width, int height, int ratio,int rate, PixelAnalyserPanel target){
         this.ratio=ratio;
         this.width=width/ratio;
         this.height=height/ratio;
+        this.rate=rate;
         this.target = target;
         target.setTarget(this);
 
@@ -62,7 +63,7 @@ public class PixelFinderMotor extends Thread {
         boolean move = false;
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(rate);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -92,7 +93,7 @@ public class PixelFinderMotor extends Thread {
 
                 //FIXME mettre les modifier
 
-                for(Tolerence t : tolerences.getTolerences())if(Math.abs(SCR-LCR)>255*t.getRed()
+                for(Tolerance t : tolerences.getTolerances())if(Math.abs(SCR-LCR)>255*t.getRed()
                         && Math.abs(SCG-LCG)>255*t.getGreen()
                         && Math.abs(SCB-LCB)>255*t.getBlue())move=true;
 
@@ -110,7 +111,7 @@ public class PixelFinderMotor extends Thread {
         target.refresh(resultante);
     }
 
-    public TolerenceManager getTolerences() {
+    public ToleranceManager getTolerences() {
         return tolerences;
     }
 

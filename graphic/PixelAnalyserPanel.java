@@ -19,14 +19,12 @@ public class PixelAnalyserPanel extends JPanel{
 
 
 
-    public PixelAnalyserPanel(int width, int height, int ratio) throws AWTException {
-        target = new PixelFinderMotor(width,height,ratio,this);
+    public PixelAnalyserPanel(int width, int height, int ratio,int rate) throws AWTException {
+        target = new PixelFinderMotor(width,height,ratio,rate,this);
 
         target.start();
 
-
-
-        target.getTolerences().addTolerence(0.1f,0.1f,0.1f);
+        //target.getTolerences().addTolerence(0.1f,0.1f,0.1f);
 
 
     }
