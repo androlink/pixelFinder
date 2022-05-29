@@ -39,9 +39,13 @@ public class PixelAnalyserPanel extends JPanel{
     }
 
     @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+    }
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(resultante,0,0,this.getParent().getWidth(),this.getParent().getHeight(),this);
+        g.drawImage(resultante,0,0,getWidth(),getHeight(),this);
 
     }
     public PixelFinderMotor getTarget() {

@@ -63,7 +63,7 @@ public class PixelFinderMotor extends Thread {
         boolean move = false;
 
         try {
-            Thread.sleep(rate);
+            Thread.sleep(rate/60);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
